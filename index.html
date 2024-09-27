@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .countdown-container {
+            position: relative;
+            width: 80vw; /* Width relative to viewport */
+            height: 45vw; /* Height to maintain 16:9 aspect ratio */
+            max-height: 80vh; /* Maximum height for vertical screens */
+            max-width: 80vh * (16 / 9); /* Maximum width for vertical screens */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .countdown {
+            text-align: center;
+            font-size: 2em;
+        }
+        .time {
+            margin: 10px;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        @media (max-width: 600px) {
+            .time {
+                font-size: 1.5em; /* Smaller font size for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="countdown-container">
+    <div class="countdown">
+        <div class="time" id="days"></div>
+        <div class="time" id="hours"></div>
+        <div class="time" id="minutes"></div>
+        <div class="time" id="seconds"></div>
+    </div>
+</div>
+
+<script>
+    // Set the target date
+    const targetDate = new Date("October 15, 2024 00:00:00").getTime();
+
+    // Update the countdown every second
+    const countdownFunction = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        // Time calculations
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result
+        document.getElementById("days").innerHTML = days + " Days";
+        document.getElementById("hours").innerHTML = hours + " Hours";
+        document.getElementById("minutes").innerHTML = minutes + " Minutes";
+        document.getElementById("seconds").innerHTML = seconds + " Seconds";
+
+        // If the countdown is over, display a message
+        if (distance < 0) {
+            clearInterval(countdownFunction);
+            document.querySelector(".countdown").innerHTML = "Countdown Finished!";
+        }
+    }, 1000);
+</script>
+
+</body>
+</html>
+
