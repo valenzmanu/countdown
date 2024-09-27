@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Timer</title>
+    <title>Countdown Timer with GIF</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,12 +22,14 @@
             max-height: 80vh; /* Maximum height for vertical screens */
             max-width: 80vh * (16 / 9); /* Maximum width for vertical screens */
             display: flex;
+            flex-direction: column; /* Stack the image and countdown vertically */
             justify-content: center;
             align-items: center;
             border: 2px solid #333;
             border-radius: 10px;
             background-color: white;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Prevent overflow */
         }
         .countdown {
             text-align: center;
@@ -40,6 +42,11 @@
             border-radius: 10px;
             display: inline-block;
         }
+        .gif {
+            width: 100%; /* Make the GIF responsive */
+            height: auto; /* Maintain aspect ratio */
+            max-height: 60%; /* Limit height of the GIF */
+        }
         @media (max-width: 600px) {
             .time {
                 font-size: 1.5em; /* Smaller font size for smaller screens */
@@ -50,6 +57,7 @@
 <body>
 
 <div class="countdown-container">
+    <img src="https://i.giphy.com/26ufmepVftH5Y2V7q.webp" alt="Countdown GIF" class="gif" />
     <div class="countdown">
         <div class="time" id="days"></div>
         <div class="time" id="hours"></div>
@@ -89,4 +97,3 @@
 
 </body>
 </html>
-
