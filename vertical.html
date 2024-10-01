@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Countdown Timer with GIF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            overflow-y: hidden;
+        }
+        .card {
+            justify-content: center;
+            align-items: center;
+            border: 0px;
+        }
+        .time {
+            border: 4px solid white;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+        }
+        .gif {
+            width: 100%; /* Make the GIF responsive */
+            height: auto; /* Maintain aspect ratio */
+            max-height: 60%; /* Limit height of the GIF */
+        }
+
+        #background-video {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 0;
+        }
+    </style>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
+    >
+</head>
+<body>
+    <video id="background-video" autoplay loop muted>
+        <source src="bg2.mp4" type="video/mp4" id="bg">
+    </video>
+    <div class="card" style="background-color: transparent; padding-top: 270px;" id="card">
+        <div class="card-content">
+            <div class="columns">
+                <div class="column is-one-half">
+                    <div class="time" id="slot1"></div>
+                </div>
+                <div class="column is-one-half">
+                    <div class="time" id="slot2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Set the target date
+    const targetDate = new Date("October 1, 2024 10:00:00").getTime();
+
+    function setBg() {
+        let aspecRatio = window.innerWidth / window.innerHeight
+        let source =  document.querySelector("source")
+        let player =  document.querySelector("video")
+        source.src = 'bg2.mp4';
+        document.getElementById('card').style.paddingTop = '400px';
+        document.getElementById('card').style.width = '50vw';
+        document.querySelectorAll('.time').forEach(el => {
+            el.style.fontSize = '3em';
+            el.style.fontWeight = '1000'
+        });
+        player.load();
+        player.play();
+    }
+
+    addEventListener("resize", (event) => { setBg() });
+    setBg()
+
+    // Update the countdown every second
+    const countdownFunction = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        
+        if(days == 1) {
+            document.getElementById("slot1").innerHTML = `${days} día`;
+        }
+        else if(days > 0) {
+            document.getElementById("slot1").innerHTML = `${days} días`;
+        }
+        
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        if(days > 0) {
+            document.getElementById("slot2").innerHTML = `${hours} horas`;
+        } else {
+            document.getElementById("slot1").innerHTML = `${hours} horas`;
+        }
+
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        if(0 >= days && hours > 0) {
+            document.getElementById("slot2").innerHTML = `${minutes} minutos`;
+        } else if(0 >= days) {
+            document.getElementById("slot1").innerHTML = `${minutes} minutos`;
+        }
+
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        if(0 >= days && 0 >= hours) {
+            document.getElementById("slot2").innerHTML = `${seconds} segundos`;
+        }
+
+        // If the countdown is over, display a message
+        if (distance < 0) {
+            clearInterval(countdownFunction);
+            document.querySelector(".countdown").innerHTML = "Countdown Finished!";
+        }
+    }, 1000);
+</script>
+
+</body>
+</html>
